@@ -11,7 +11,20 @@ apt update && apt upgrade -y && apt dist-upgrade -y
 Abh&auml;ngigkeiten installieren
 
 ```
-apt install git install build-essential libxslt-dev libvorbis-dev libxml2 libssl-dev curl -y
+apt install git wget build-essential libvorbis-dev libxml2 libssl-dev curl -y
+```
+Installation von libxslt1-dev AMD64 / x86
+
+```
+wget http://ftp.de.debian.org/debian/pool/main/libx/libxslt/libxslt1-dev_1.1.35-1_amd64.deb
+apt install ./libxslt1-dev_1.1.35-1_amd64.deb
+```
+
+Installation von libxslt1-dev ARM64
+
+```
+wget http://ftp.de.debian.org/debian/pool/main/libx/libxslt/libxslt1-dev_1.1.35-1_arm64.deb
+apt install ./libxslt1-dev_1.1.35-1_arm64.deb
 ```
 
 Download und bereitstellung von Icecast KH
@@ -19,7 +32,7 @@ Download und bereitstellung von Icecast KH
 ```
 wget https://github.com/karlheyes/icecast-kh/archive/refs/tags/icecast-2.4.0-kh22.tar.gz
 tar -xvf icecast-*.tar.gz
-cd icecast-2.4.0-kh22
+cd icecast-kh-icecast-2.4.0-kh22
 ```
 
 Compilieren und installieren von Icecast KH
@@ -126,7 +139,7 @@ certbot certonly --webroot-path="/root/icecast-kh-icecast-2.4.0-kh22/web" -d 'ko
 Zusammenfassen von Zertifikat und Key f&uuml;r den Icecast sowie Berechtigungen vergeben
 
 ```
-cat /etc/letsencrypt/live/stream.example.com/fullchain.pem /etc/letsencrypt/live/stream1.example.com/privkey.pem > /etc/icecast2/bundle.pem
+cat /etc/letsencrypt/live/stream.example.com/fullchain.pem /etc/letsencrypt/live/stream1.example.com/privkey.pem > /etc/icecast-kh/bundle.pem
 chmod 666 /etc/icecast2/bundle.pem
 ```
 
@@ -138,7 +151,7 @@ nano /etc/letsencrypt/renewal/stream.example.com.conf
 Folgendes in den Bereich `[renewalparams]` hinzuf&uuml;gen
 
 ```
-post_hook = cat /etc/letsencrypt/live/stream.example.com/fullchain.pem /etc/letsencrypt/live/stream.example/privkey.pem > /etc/icecast2/bundle.pem && service icecast2 restart
+post_hook = cat /etc/letsencrypt/live/stream.example.com/fullchain.pem /etc/letsencrypt/live/stream.example/privkey.pem > /etc/icecast-kh/bundle.pem && service icecast2 restart
 ```
 
 Zum Validieren ob der Prozess richtig abl&auml;uft
@@ -150,12 +163,12 @@ certbot renew --dry-run
 Erneutes Bearbeiten der Konfigurationsdatei
 
 ```
-nano /etc/icecast2/icecast.xml
+nano /etc/icecast-kh/icecast.xml
 ```
 Folgendes in den `<path></path>` Bereich einsetzen
 
 ```
-<ssl-certificate>/etc/icecast2/bundle.pem</ssl-certificate>
+<ssl-certificate>/etc/icecast-kh/bundle.pem</ssl-certificate>
 ```
 Folgendes nun in den Bereich wo bereits der andere Listen-Bereich liegt einf&uuml;gen
 
