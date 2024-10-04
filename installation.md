@@ -165,7 +165,7 @@ Erneutes Bearbeiten der Konfigurationsdatei
 ```
 nano /etc/icecast-kh/icecast.xml
 ```
-Folgendes in den `<path></path>` Bereich einsetzen
+Folgendes in den `<paths></paths>` Bereich einsetzen
 
 ```
 <ssl-certificate>/etc/icecast-kh/bundle.pem</ssl-certificate>
